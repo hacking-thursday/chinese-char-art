@@ -122,13 +122,26 @@ def font_features(fontname):
         feature = engine.scan(unichr(char))
         yield [feature, char]
 
+def cmp(f1, f2):
+    s1 = sum(f1[0])
+    s2 = sum(f2[0])
+    if s1 < s2:
+        return -1
+    elif s1 == s2:
+        return 0
+    else:
+        return 1
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print "Usage: fonts [fontname]"
         sys.exit(1)
 
     # TODO: sort base on sum of features
-    print '['
+    features = []
     for feature in font_features(sys.argv[1]):
-        print feature, ','
-    print ']'
+        features.append(feature)
+
+    features.sort(cmp)
+
+    print features
