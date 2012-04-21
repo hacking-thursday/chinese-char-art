@@ -62,4 +62,4 @@ class ImageEncoder(object):
         # n is pixels is included in a block
         # left is x
         # upper is y
-        return split_img(self._img, 9)
+        return split_img(self._img, 3)
