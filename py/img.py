@@ -21,7 +21,10 @@ def split_img(img, n):
                 box = (left, upper, left+n, upper+n)
                 #dbg('{}, {}, {}, {}'.format(left, upper, left+n, upper+n))
                 region = img.crop(box)
-                ret.append(ChrPixel(region))
+                chrpix = ChrPixel(region)
+                if j == n_x -1:
+                    chrpix.iseol = True
+                ret.append(chrpix)
                 upper += n
             left += n
         return ret
@@ -34,6 +37,7 @@ class ChrPixel(object):
     def __init__(self, img):
         # split to 9 pixel
         self._img = img
+        self.iseol = False
 
     def pixel(self):
         ret = []
