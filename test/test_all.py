@@ -17,7 +17,8 @@ class UtilsTestCase(unittest.TestCase):
     def test_blocks(self):
         """test transform keyword arguments's name to command's option name.
         """
-        print self.imgpr.blocks()[0].pixel()
+        for b in self.imgpr.blocks():
+            print b.pixel()
 
 def suite():
     suite = unittest.TestSuite()
