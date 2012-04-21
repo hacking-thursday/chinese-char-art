@@ -36,7 +36,19 @@ class ChrPixel(object):
         self._img = img
 
     def pixel(self):
-        return self._img.getpixel((0,0)) == 255 and 1 or 0
+        ret = []
+        for x in range(0,3):
+            for y in range(0,3):
+                encn = self.enc(self._img.getpixel((x,y)))
+                ret.append(encn)
+        return ret
+
+    def enc(self, pix):
+        # black: 1
+        if pix == 255:
+            return 0
+        else:
+            return 1
 
 class ImageEncoder(object):
 
@@ -62,4 +74,4 @@ class ImageEncoder(object):
         # n is pixels is included in a block
         # left is x
         # upper is y
-        return split_img(self._img, 9)
+        return split_img(self._img, 3)
