@@ -14,9 +14,9 @@ def split_img(img, n):
 
         # left is x
         # upper is y
-        left = 0
+        upper = 0
         for i in range(0, n_y):
-            upper = 0
+            left = 0
             for j in range(0, n_x):
                 box = (left, upper, left+n, upper+n)
                 #dbg('{}, {}, {}, {}'.format(left, upper, left+n, upper+n))
@@ -25,8 +25,8 @@ def split_img(img, n):
                 if j == n_x -1:
                     chrpix.iseol = True
                 ret.append(chrpix)
-                upper += n
-            left += n
+                left += n
+            upper += n
         return ret
 
 def dbg(msg):
