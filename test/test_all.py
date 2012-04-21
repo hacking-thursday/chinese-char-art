@@ -18,6 +18,8 @@ class UtilsTestCase(unittest.TestCase):
         """test transform keyword arguments's name to command's option name.
         """
         blocks = self.imgpr.blocks()
+        for e in blocks:
+            print e.pixel()
         n_x = 162
         self.assertTrue(blocks[53].iseol)
 

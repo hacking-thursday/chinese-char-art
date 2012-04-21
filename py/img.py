@@ -49,17 +49,18 @@ class ChrPixel(object):
 
     def enc(self, pix):
         # black: 1
-        if pix == 255:
-            return 0
-        else:
-            return 1
+        lv_id = 0
+        while pix > 0:
+            pix = pix / 4
+            lv_id += 1
+        return lv_id
 
 class ImageEncoder(object):
 
-    def __init__(self, font_size=4):
+    def __init__(self, font_size=3):
         self.font_size = font_size
 
-    def read(self, fname):
+    def read(self, fname, only_blackwhite=False):
         # covert to gray
         self._img = Image.open(fname).convert('L')
         dbg('SIZE: {0}x{1}, BOXS: {2}'.format(self._img.size[0],
@@ -68,14 +69,19 @@ class ImageEncoder(object):
 
         # for each pixel, if pixel > 150: white
         # else: black
-        for i in range(self._img.size[0]):
-            for j in range(self._img.size[1]):
-                rgb = self._img.getpixel((i,j)) > 150 and 255 or 0
-                self._img.putpixel((i,j), rgb)
+        if only_blackwhite:
+            for i in range(self._img.size[0]):
+                for j in range(self._img.size[1]):
+                    # 1 level  is 62
+                    if self._img.getpixel((i,j)) > 124:
+                        rgb = 255
+                    else:
+                        rgb = 0
+                    self._img.putpixel((i,j), rgb)
 
     def blocks(self):
         # split to block by font size
         # n is pixels is included in a block
         # left is x
         # upper is y
-        return split_img(self._img, 3)
+        return split_img(self._img, self.font_size)
