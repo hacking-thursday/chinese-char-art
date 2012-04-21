@@ -26,12 +26,42 @@ import img
 import sys
 import wqy
 
+def binary_search(fonts, block, lo=0, hi=None):
+    if hi is None:
+        hi = len(fonts)
+    val = sum(block)
+    while lo < hi:
+        mid = (lo+hi)//2
+        midval = sum(fonts[mid][0])
+        if midval < val:
+            lo = mid+1
+        elif midval > val:
+            hi = mid
+        else:
+            return mid
+    return -1
+
+def find_best_match(fonts, block):
+    code = binary_search(fonts, block)
+    if code > 0:
+        char = unichr(fonts[code][1]).encode('utf-8')
+    else:
+        char = "　"
+    return char
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print 'Usage: cca.py [image]'
 
     imgpr = img.ImageEncoder()
     imgpr.read(sys.argv[1])
+
+    print '<!doctype><html><head><meta charset=\'utf-8\'/></head><body>'
+    print '<pre>'
+    for b in imgpr.blocks():
+        sys.stdout.write(find_best_match(wqy.wqy, b.pixel()))
+        if b.iseol:
+            sys.stdout.write('\n')
 
     for b in imgpr.blocks():
         if any(b.pixel()):
@@ -40,3 +70,5 @@ if __name__ == '__main__':
             print 0,
         if b.iseol:
             print ''
+
+    print '</pre></body></html>'
