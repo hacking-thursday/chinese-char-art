@@ -144,7 +144,6 @@ if __name__ == '__main__':
         print "Usage: fonts [fontname]"
         sys.exit(1)
 
-    # TODO: sort base on sum of features
     features = []
     for feature in font_features(sys.argv[1]):
         features.append(feature)
