@@ -22,6 +22,7 @@
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
+import random
 import img
 import sys
 import wqy
@@ -44,6 +45,7 @@ def binary_search(fonts, block, lo=0, hi=None):
 def find_best_match(fonts, block):
     code = binary_search(fonts, block)
     if code > 0:
+        code = code + random.choice(range(0, 3))
         char = unichr(fonts[code][1]).encode('utf-8')
     else:
         char = "　"
@@ -59,16 +61,16 @@ if __name__ == '__main__':
     print '<!doctype><html><head><meta charset=\'utf-8\'/></head><body>'
     print '<pre>'
     for b in imgpr.blocks():
-        sys.stdout.write(find_best_match(wqy.wqy, b.pixel()))
+        sys.stdout.write(find_best_match(wqy.fonts, b.pixel()))
         if b.iseol:
             sys.stdout.write('\n')
 
-    for b in imgpr.blocks():
-        if any(b.pixel()):
-            print 1,
-        else:
-            print 0,
-        if b.iseol:
-            print ''
+    # for b in imgpr.blocks():
+    #     if any(b.pixel()):
+    #         print 1,
+    #     else:
+    #         print 0,
+    #     if b.iseol:
+    #         print ''
 
     print '</pre></body></html>'

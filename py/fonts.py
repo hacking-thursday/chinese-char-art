@@ -72,7 +72,13 @@ class Engine(object):
                 if ord(self.data[offset]) == 0:
                     acc[self.bucket(row, column)] += 1
 
-        return self.normalize(acc)
+        acc = self.normalize(acc)
+        if acc == [2.0, 1.0, 2.0, 1.0, 0.0, 1.0, 2.0, 1.0, 2.0]:
+            return None
+        elif acc == [0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0]:
+            return None
+        else:
+            return acc
 
     def bucket(self, row, column):
         row_3 = BOX_SIZE / 3 * self.stride
@@ -110,17 +116,18 @@ def zh_chars():
     #     yield i
     # for i in xrange(0x20000, 0x2A6DF+1):
     #     yield i
-    for i in xrange(0xF900, 0xFAFF+1):
-        yield i
-    for i in xrange(0x2F800, 0x2FA1F+1):
-        yield i
+    # for i in xrange(0xF900, 0xFAFF+1):
+    #     yield i
+    # for i in xrange(0x2F800, 0x2FA1F+1):
+    #     yield i
 
 
 def font_features(fontname):
     engine = Engine(fontname)
     for char in zh_chars():
         feature = engine.scan(unichr(char))
-        yield [feature, char]
+        if feature:
+            yield [feature, char]
 
 def cmp(f1, f2):
     s1 = sum(f1[0])
@@ -144,4 +151,5 @@ if __name__ == '__main__':
 
     features.sort(cmp)
 
+    print 'fonts = ',
     print features
