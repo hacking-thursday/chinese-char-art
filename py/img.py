@@ -15,9 +15,9 @@ def split_img(img, n):
         # left is x
         # upper is y
         left = 0
-        for i in range(0, n_x):
+        for i in range(0, n_y):
             upper = 0
-            for j in range(0, n_y):
+            for j in range(0, n_x):
                 box = (left, upper, left+n, upper+n)
                 #dbg('{}, {}, {}, {}'.format(left, upper, left+n, upper+n))
                 region = img.crop(box)
